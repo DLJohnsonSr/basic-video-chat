@@ -27,7 +27,6 @@
         <div id="chat-video" class="d-flex">
           <div id="video-1" class="w-50">
             <video autoplay="true" class="card-img-top"></video>
-
             <h2 class="h5 card-title card-header">Username</h2>
           </div>
           <div id="video-2" class="w-50">
@@ -36,7 +35,7 @@
           </div>
         </div>
         <div class="card-body" style="height: 15rem">
-          <ul id="chat-messages"></ul>
+          <ul id="chat-messages" class="list-unstyled"></ul>
         </div>
         <form id="chat-form" class="card-footer input-group py-3">
           <input
@@ -65,13 +64,14 @@
       chatForm.addEventListener("submit", (event) => {
         event.preventDefault();
         if (chatInput.value) {
-          socket.emit("chat message", chatInput.value);
+          let msg = { userId: socket.id, text: chatInput.value };
+          socket.emit("chat message", msg);
           chatInput.value = "";
         }
       });
       socket.on("chat message", (msg) => {
         let listItem = document.createElement("li");
-        listItem.textContent = msg;
+        listItem.textContent = `${msg.username}: ${msg.text}`;
         messages.appendChild(listItem);
       });
     </script>
