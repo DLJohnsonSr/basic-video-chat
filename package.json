@@ -1,0 +1,17 @@
+{
+  "name": "basic-video-chat",
+  "version": "1.0.0",
+  "description": "a basic video chat app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon basic-video-chat"
+  },
+  "author": "Dominique Johnson",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12",
+    "socket.io": "^4.2.0"
+  }
+}
