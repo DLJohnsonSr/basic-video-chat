@@ -22,7 +22,7 @@
   </style>
   <body>
     <div class="container">
-      <h1>Video Chat App</h1>
+      <h1>Chatroom</h1>
       <div id="chat" class="card">
         <div id="chat-video" class="d-flex">
           <div id="video-1" class="w-50">
@@ -34,8 +34,12 @@
             <h2 class="h5 card-title card-header">Username</h2>
           </div>
         </div>
-        <div class="card-body" style="height: 15rem">
-          <ul id="chat-messages" class="list-unstyled"></ul>
+        <div class="card-body card-group" style="height: 15rem">
+          <ul
+            id="chat-messages"
+            class="list-unstyled overflow-scroll w-50"
+          ></ul>
+          <ul id="chat-users" class="list-unstyled overflow-scroll w-50"></ul>
         </div>
         <form id="chat-form" class="card-footer input-group py-3">
           <input
@@ -47,6 +51,9 @@
           <button class="btn btn-primary" type="submit">Submit</button>
         </form>
       </div>
+      <a href="/"
+        ><button class="mt-5 w-100 btn btn-primary">Exit Chatroom</button></a
+      >
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
@@ -54,26 +61,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-
-      let messages = document.querySelector("#chat-messages");
-      let chatForm = document.querySelector("#chat-form");
-      let chatInput = document.querySelector("#chat-input");
-
-      chatForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (chatInput.value) {
-          let msg = { userId: socket.id, text: chatInput.value };
-          socket.emit("chat message", msg);
-          chatInput.value = "";
-        }
-      });
-      socket.on("chat message", (msg) => {
-        let listItem = document.createElement("li");
-        listItem.textContent = `${msg.username}: ${msg.text}`;
-        messages.appendChild(listItem);
-      });
-    </script>
+    <script src="../../js/socket.js"></script>
   </body>
 </html>

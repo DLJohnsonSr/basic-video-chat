@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Dominique Johnson" />
+    <title>Basic Video Chat App</title>
+
+    <!-- BOOTSTRAP CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Video Chatroom</h1>
+      <form id="user-form" action="/username" method="POST">
+        <div class="input-group form-floating">
+          <input
+            id="user-input"
+            name="username"
+            autocomplete="off"
+            type="text"
+            class="form-control"
+          />
+          <label for="user-inport" class="form-label">Enter A Username</label>
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script type="module" src="./js/main.js"></script>
+</html>

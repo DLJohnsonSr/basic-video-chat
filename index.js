@@ -3,41 +3,44 @@ const app = express();
 const { createServer } = require("http");
 const server = createServer(app);
 
-// create websocket connection
+const path = require("path");
+const routes = require("./routes");
+
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+// const users = new Set();
+const userService = require("./services/user");
+
+// load static files
+app.use(express.static(path.join(__dirname + "/public")));
+app.use(express.urlencoded({ extended: true }));
+
 // Routes
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-// Collection of online users
-const users = new Map();
-
-// websocket
-io.on("connection", (socket) => {
-  let user = { userId: socket.id, username: "User" + users.size };
-
-  users.set(socket.id, user);
-
-  let msg = { ...user, text: " has logged in." };
-
-  io.emit("chat message", msg);
-
-  socket.on("chat message", (msg) => {
-    // if message has no username find userId in user Set
-    if (msg.username === undefined) {
-      msg.username = users.get(msg.userId).username;
-    }
-    io.emit("chat message", msg);
-  });
-});
+app.use("/", routes);
 
 // Set PORT
 const PORT = 3000;
 
 // Create server
 server.listen(PORT, () => {
-  console.log(`Listing on PORT: ${PORT}`);
+  console.log(`Listening on PORT: ${PORT}`);
+});
+
+// Websocket
+io.on("connect", (socket) => {
+  socket.on("chat message", (msg) => {
+    io.emit("chat message", msg);
+  });
+  socket.on("add user", (user) => {
+    user.userId = socket.id;
+    userService.addUser(user);
+    const users = userService.getUsersArr();
+    io.emit("update user", users);
+  });
+  socket.on("disconnect", () => {
+    userService.deleteUser(socket.id);
+    const users = userService.getUsersArr();
+    io.emit("update user", users);
+  });
 });
